@@ -1,4 +1,5 @@
 const {User} = require('../models/user');
+const {signUser} = require('../models/userregister')
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
@@ -122,6 +123,23 @@ router.post('/register', async (req,res)=>{
 
     res.send(user);
 })
+router.post('/usignup', async (req,res)=>{
+    let username=req.body.username;
+    let email=req.body.email;
+    let MobileNo=req.body.MobileNo;
+    let password=req.body.password;
+    let ins=new signUser({'username':username,'email':email, 'MobileNo':MobileNo, 'password':password});
+    ins.save(function(err)
+     {
+         if(err)
+         {
+            res.json({'err':1,'msg':'Not Insert Successfully'});
+         }
+         res.json({'err':0,'msg':'Insert Successfully'});
+      })
+    
+})
+
 
 
 router.delete('/:id', (req, res)=>{
